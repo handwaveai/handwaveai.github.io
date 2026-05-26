@@ -992,11 +992,11 @@
       <p class="cta-sub">
         If your organization has the problem we described, we want to talk.
       </p>
-      <form class="email-form" action="https://formspree.io/f/mdajpzyy" method="POST">
+      <form class="email-form" id="contact-form">
         <input type="email" name="email" class="email-input" placeholder="your@email.com" required>
         <button type="submit" class="email-submit">Get in touch</button>
       </form>
-      <p class="form-note">No pitch. We'll reach out to understand your situation first.</p>
+      <p class="form-note" id="form-note">No pitch. We'll reach out to understand your situation first.</p>
     </div>
   </section>
 
@@ -1028,6 +1028,36 @@
       document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
     }, 100);
 
+    // Formspree fetch submission — no redirect
+    document.getElementById("contact-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const email = this.querySelector("input[type=email]").value;
+      const btn   = this.querySelector("button");
+      const note  = document.getElementById("form-note");
+      btn.textContent = "Sending...";
+      btn.disabled = true;
+      try {
+        const res = await fetch("https://formspree.io/f/mdajpzyy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          this.innerHTML = "<p style=\"color:rgba(255,255,255,0.85);font-size:1rem;padding:14px 0\">Got it — we will be in touch shortly.</p>";
+          note.style.display = "none";
+        } else {
+          btn.textContent = "Get in touch";
+          btn.disabled = false;
+          note.textContent = "Something went wrong — email us directly at aaron.nelson@handwaveai.com";
+          note.style.color = "rgba(255,100,100,0.9)";
+        }
+      } catch(err) {
+        btn.textContent = "Get in touch";
+        btn.disabled = false;
+        note.textContent = "Something went wrong — email us directly at aaron.nelson@handwaveai.com";
+        note.style.color = "rgba(255,100,100,0.9)";
+      }
+    });
   </script>
 
 </body>
