@@ -1,181 +1,1044 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Handwave AI</title>
-<meta name="description" content="A new kind of data operation. Built for the businesses enterprise vendors ignore.">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a1a; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handwave AI — Anyone Can Be a Data Team</title>
+  <meta name="description" content="Enterprise-grade data infrastructure for small businesses. The analytics platform your board has been asking for — without the 18-month project.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem 2rem;
-  text-align: center;
-}
+    :root {
+      --ink:       #1a2744;
+      --ink-mid:   #3d4e6b;
+      --ink-light: #7a8499;
+      --paper:     #ece8e0;
+      --paper-mid: #e4dfd6;
+      --accent:    #1a2744;
+      --accent-lt: #e8ecf4;
+      --warm:      #c8956b;
+      --warm-lt:   #f9f0e8;
+      --white:     #ffffff;
+      --rule:      rgba(15,17,23,0.12);
+    }
 
-.wordmark {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: #888;
-  text-transform: uppercase;
-  margin-bottom: 3rem;
-}
+    html { scroll-behavior: smooth; }
 
-.headline {
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 500;
-  line-height: 1.2;
-  color: #111;
-  margin-bottom: 1.5rem;
-  max-width: 640px;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
 
-.headline em {
-  font-style: normal;
-  color: #0F6E56;
-}
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.divider {
-  width: 32px;
-  height: 2px;
-  background: #1D9E75;
-  margin: 0 auto 2.5rem;
-}
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(236,232,224,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
 
-.subhead {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #555;
-  max-width: 480px;
-  margin: 0 auto 1.25rem;
-}
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
 
-.tagline {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: #1D9E75;
-  text-transform: uppercase;
-  margin-bottom: 3.5rem;
-}
+    .nav-logo span {
+      color: var(--accent);
+    }
 
-.capture {
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto 1rem;
-}
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111827;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
 
-.capture-row {
-  display: flex;
-  gap: 8px;
-}
+    .nav-cta:hover {
+      background: #1a2744;
+      transform: translateY(-1px);
+    }
 
-.capture-row input {
-  flex: 1;
-  padding: 0 1rem;
-  height: 46px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
-  color: #111;
-  outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 48px 80px;
+      gap: 80px;
+      position: relative;
+      z-index: 1;
+    }
 
-.capture-row input:focus {
-  border-color: #1D9E75;
-  box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
-}
+    .hero-left {
+      max-width: 560px;
+    }
 
-.capture-row button {
-  height: 46px;
-  padding: 0 1.5rem;
-  background: #1D9E75;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s;
-}
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 28px;
+    }
 
-.capture-row button:hover { background: #0F6E56; }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--warm);
+    }
 
-.success-msg {
-  display: none;
-  font-size: 14px;
-  color: #0F6E56;
-  padding: 0.75rem 1rem;
-  border: 1px solid #5DCAA5;
-  border-radius: 8px;
-  background: #E1F5EE;
-  text-align: center;
-}
+    .hero-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 4.5vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
 
-.footer-note {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 3rem;
-}
+    .hero-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
 
-@media (max-width: 520px) {
-  .capture-row { flex-direction: column; }
-  .capture-row button { width: 100%; }
-}
-</style>
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      margin-bottom: 44px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1a2744;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(26,39,68,0.2);
+    }
+
+    .btn-primary:hover {
+      background: #111827;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,39,68,0.28);
+    }
+
+    .btn-primary svg {
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover svg {
+      transform: translateX(3px);
+    }
+
+    .hero-note {
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    /* ── HERO RIGHT — STAT CARDS ── */
+    .hero-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-self: center;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(15,17,23,0.1);
+    }
+
+    .stat-card:nth-child(1) { grid-column: 1 / -1; background: #1a2744; color: var(--white); }
+    .stat-card:nth-child(1) .stat-label { color: rgba(255,255,255,0.7); }
+    .stat-card:nth-child(1) .stat-value { color: var(--white); }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 60px; height: 60px;
+      background: var(--rule);
+      border-radius: 0 8px 0 60px;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.83rem;
+      color: var(--ink-light);
+      line-height: 1.4;
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--rule);
+      margin: 0;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── PROBLEM SECTION ── */
+    .problem {
+      padding: 100px 0;
+      background: #111827;
+      color: var(--white);
+    }
+
+    .problem-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 24px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--warm);
+    }
+
+    .problem-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .problem-headline em {
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .problem-body {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.75;
+    }
+
+    .pain-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+      transition: background 0.2s;
+    }
+
+    .pain-item:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .pain-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      color: var(--warm);
+    }
+
+    /* ── WHAT IT IS ── */
+    .what {
+      padding: 100px 0;
+      background: var(--paper);
+    }
+
+    .what-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 64px;
+    }
+
+    .section-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pillar {
+      padding: 36px 32px;
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pillar:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(15,17,23,0.1);
+    }
+
+    .pillar-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--accent-lt);
+      position: absolute;
+      top: 16px;
+      right: 24px;
+    }
+
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-lt);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .pillar h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .pillar p {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ── WHO IT IS FOR ── */
+    .who {
+      padding: 100px 0;
+      background: var(--paper-mid);
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .who-copy .section-label { margin-bottom: 24px; }
+
+    .who-copy .section-headline {
+      margin-bottom: 20px;
+    }
+
+    .who-copy .section-sub {
+      margin-bottom: 36px;
+    }
+
+    .who-markers {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .marker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+    }
+
+    .marker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #1a2744;
+      flex-shrink: 0;
+    }
+
+    .icp-card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .icp-header {
+      background: #1a2744;
+      padding: 24px 28px;
+      color: var(--white);
+    }
+
+    .icp-header h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .icp-header p {
+      font-size: 0.82rem;
+      opacity: 0.75;
+      font-weight: 300;
+    }
+
+    .icp-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .icp-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.9rem;
+    }
+
+    .icp-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .icp-row-label {
+      font-weight: 500;
+      color: var(--ink);
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .icp-row-val {
+      color: var(--ink-mid);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* ── QUOTE / PRINCIPLE ── */
+    .principle {
+      padding: 80px 0;
+      background: var(--warm-lt);
+      border-top: 1px solid rgba(200,119,58,0.15);
+      border-bottom: 1px solid rgba(200,119,58,0.15);
+    }
+
+    .principle-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 48px;
+      text-align: center;
+    }
+
+    .principle-quote {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      line-height: 1.3;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .principle-quote em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .principle-attr {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      padding: 120px 0;
+      background: #111827;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .cta-section .section-label {
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .cta-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .cta-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 44px;
+    }
+
+    /* ── EMAIL FORM ── */
+    .email-form {
+      display: flex;
+      gap: 0;
+      max-width: 440px;
+      margin: 0 auto 16px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
+      transition: box-shadow 0.2s;
+    }
+
+    .email-form:focus-within {
+      box-shadow: 0 0 0 2px var(--warm);
+    }
+
+    .email-input {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      padding: 14px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--white);
+      outline: none;
+    }
+
+    .email-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .email-submit {
+      background: var(--warm);
+      color: var(--white);
+      border: none;
+      padding: 14px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .email-submit:hover {
+      background: #b56830;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 36px 48px;
+      background: #0c1220;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: rgba(255,255,255,0.25); }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 48px; }
+      .hero-left { max-width: 100%; }
+      .hero-right { grid-template-columns: 1fr 1fr; }
+      .problem-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+      .container { padding: 0 24px; }
+      .pillars { grid-template-columns: 1fr; }
+      .who-grid { grid-template-columns: 1fr; gap: 48px; }
+      .principle-inner { padding: 0 24px; }
+      .cta-inner { padding: 0 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 24px; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-<div class="page">
-  <div class="wordmark">Handwave AI</div>
 
-  <h1 class="headline">
-    A new kind of data operation.<br>
-    <em>Built for the businesses<br>enterprise vendors ignore.</em>
-  </h1>
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">Handwave <span>AI</span></a>
+    <a href="#early-access" class="nav-cta">
+      Get in touch
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left fade-up">
+      <div class="hero-eyebrow">Managed Analytics as a Service</div>
+      <h1 class="hero-headline">
+        Your board is asking questions<br>
+        your tools <em>can't answer.</em>
+      </h1>
+      <p class="hero-sub">
+        Handwave AI delivers enterprise-grade data infrastructure to small and mid-size hospitality and resort operators — without the 18-month project, the internal IT overhead, or the seven-figure consulting bill.
+      </p>
+      <div class="hero-actions">
+        <a href="#early-access" class="btn-primary">
+          Get in touch
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <span class="hero-note">Travel & leisure vertical. Limited onboarding slots.</span>
+      </div>
+    </div>
+
+    <div class="hero-right fade-up" style="transition-delay: 0.15s">
+      <div class="stat-card">
+        <div class="stat-value">$150–500k</div>
+        <div class="stat-label">Average cost of a traditional EDW creation project — before anyone runs it</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">18 mo.</div>
+        <div class="stat-label">Typical time to first usable output from a traditional data warehouse build</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">Days</div>
+        <div class="stat-label">Time to first governed analytics with Handwave AI — not months, not a project</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Internal IT resources required to run the service — your data comes to us, not the other way around</div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+        <path d="M8 1v18M1 13l7 7 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
 
   <div class="divider"></div>
 
-  <p class="subhead">
-    We are building something that gives small businesses
-    the data foundation they have always deserved
-    but could never afford.
-  </p>
+  <!-- PROBLEM -->
+  <section class="problem">
+    <div class="problem-inner">
+      <div class="fade-up">
+        <div class="section-label">The problem</div>
+        <h2 class="problem-headline">
+          You know you need better data.<br>
+          <em>The project has always been impossible.</em>
+        </h2>
+        <p class="problem-body">
+          The marketing director who gets asked "where are our guests actually coming from?" The finance director who can't tie campaign spend to booking revenue because the data lives in four different systems. The GM who needs to brief the board on next season's outlook — and is flying blind.
+          <br><br>
+          It is not a budget problem. It is an organizational impossibility. You cannot absorb a 12-month EDW project without a dedicated data team, internal IT ownership, and a steering committee. So the problem stays unsolved.
+        </p>
+      </div>
 
-  <p class="tagline">Anyone can be a data team.</p>
-
-  <div class="capture">
-    <div class="capture-row">
-      <input type="email" id="email-input" placeholder="your@email.com" />
-      <button onclick="handleSubmit()">Get early access</button>
+      <ul class="pain-list fade-up" style="transition-delay: 0.15s">
+        <li class="pain-item">
+          <svg class="pain-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 6v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Guest origin, campaign attribution, and revenue forecasting are all questions that should have clean answers — and don't.
+        </li>
+        <li class="pain-item">
+          <svg class="pain-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h10M3 14h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Your data lives in ActiveCampaign, your PMS, Destimetrics, and a spreadsheet someone built three years ago. None of them talk to each other.
+        </li>
+        <li class="pain-item">
+          <svg class="pain-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3L3 17h14L10 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M10 10v3M10 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          You've been told an enterprise data warehouse isn't feasible at your size. That's been true — until now.
+        </li>
+        <li class="pain-item">
+          <svg class="pain-icon" viewBox="0 0 20 20" fill="none">
+            <rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7 5V4a1 1 0 011-1h4a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Your internal analyst time goes to pulling reports, not analyzing them. Every cycle.
+        </li>
+      </ul>
     </div>
-    <div class="success-msg" id="success">You are on the list. We will be in touch.</div>
-  </div>
+  </section>
 
-  <p class="footer-note">handwaveai.com &nbsp;&middot;&nbsp; &copy; 2026 Handwave AI</p>
-</div>
+  <!-- WHAT IT IS -->
+  <section class="what">
+    <div class="container">
+      <div class="what-header fade-up">
+        <div class="section-label" style="justify-content: center">What Handwave AI is</div>
+        <h2 class="section-headline">Enterprise architecture. Managed service. Monthly price.</h2>
+        <p class="section-sub">The kind of data infrastructure that runs billion-dollar resort operators — now accessible to the organizations that need it most, at a price point that actually fits.</p>
+      </div>
 
-<script>
-function handleSubmit() {
-  var input = document.getElementById('email-input');
-  var success = document.getElementById('success');
-  var val = input.value.trim();
-  if (!val || !val.includes('@')) {
-    input.style.borderColor = '#E24B4A';
-    input.focus();
-    return;
-  }
-  document.querySelector('.capture-row').style.display = 'none';
-  success.style.display = 'block';
-}
-</script>
+      <div class="pillars">
+        <div class="pillar fade-up">
+          <div class="pillar-number">01</div>
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M4 6h14M4 11h10M4 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>All your sources. One governed layer.</h3>
+          <p>We connect every data source you have — CRM, reservations, marketing, market benchmarks — and govern them in a single unified layer. No more spreadsheet stitching.</p>
+        </div>
+
+        <div class="pillar fade-up" style="transition-delay: 0.1s">
+          <div class="pillar-number">02</div>
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M11 7v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Your KPIs. Calculated automatically.</h3>
+          <p>A curated library of travel and leisure metrics — updated weekly or monthly, calculated from your actual data, and enriched with public demographic and market intelligence.</p>
+        </div>
+
+        <div class="pillar fade-up" style="transition-delay: 0.2s">
+          <div class="pillar-number">03</div>
+          <div class="pillar-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M6 16l4-8 4 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.5 13h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Managed. Nothing for you to run.</h3>
+          <p>No internal IT ownership. No data engineer to hire. No pipeline to maintain. Your data comes to us via standard connectors — no firewall changes, no network configuration. We own the infrastructure, the pipeline, and the governance. You own the insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT IS FOR -->
+  <section class="who">
+    <div class="container">
+      <div class="who-grid">
+        <div class="who-copy fade-up">
+          <div class="section-label">Who it's for</div>
+          <h2 class="section-headline">Built for operators without a data team.</h2>
+          <p class="section-sub">
+            If your organization has been told an enterprise data solution isn't feasible at your size, Handwave AI was built specifically for you.
+          </p>
+          <div class="who-markers">
+            <div class="marker"><div class="marker-dot"></div>Independent and regional resort operators</div>
+            <div class="marker"><div class="marker-dot"></div>Destination marketing organizations (DMOs)</div>
+            <div class="marker"><div class="marker-dot"></div>Hospitality groups with 50–500 employees</div>
+            <div class="marker"><div class="marker-dot"></div>Directors getting asked questions their tools can't answer</div>
+            <div class="marker"><div class="marker-dot"></div>Organizations using 2–4 disconnected systems with no unified view</div>
+          </div>
+        </div>
+
+        <div class="icp-card fade-up" style="transition-delay: 0.15s">
+          <div class="icp-header">
+            <h3>Built for organizations like this</h3>
+            <p>Resort, hospitality, and destination operations</p>
+          </div>
+          <div class="icp-body">
+            <div class="icp-row">
+              <span class="icp-row-label">Organization</span>
+              <span class="icp-row-val">Independent resort, DMO, or regional hospitality operator</span>
+            </div>
+            <div class="icp-row">
+              <span class="icp-row-label">Size</span>
+              <span class="icp-row-val">50–500 employees; no dedicated data team</span>
+            </div>
+            <div class="icp-row">
+              <span class="icp-row-label">Situation</span>
+              <span class="icp-row-val">2–4 connected systems; board or exec asking data questions the team can't answer cleanly</span>
+            </div>
+            <div class="icp-row">
+              <span class="icp-row-label">History</span>
+              <span class="icp-row-val">Has been told an EDW isn't feasible at this size</span>
+            </div>
+            <div class="icp-row">
+              <span class="icp-row-label">What changes</span>
+              <span class="icp-row-val">Governed analytics running in days, a golden guest record, and KPIs that actually answer the board's questions — without a data team</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLE -->
+  <section class="principle">
+    <div class="principle-inner fade-up">
+      <p class="principle-quote">
+        "Complexity is conserved — it cannot be removed, only moved. Handwave AI moves it <em>out of your organization entirely.</em>"
+      </p>
+      <div class="principle-attr">Aaron Nelson, CEO — Handwave AI</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="early-access">
+    <div class="cta-inner fade-up">
+      <div class="section-label" style="color: var(--warm)">Get started</div>
+      <h2 class="cta-headline">Anyone can be a data team.</h2>
+      <p class="cta-sub">
+        If your organization has the problem we described, we want to talk.
+      </p>
+      <form class="email-form" onsubmit="handleSubmit(event)">
+        <input type="email" class="email-input" placeholder="your@email.com" required id="email-field">
+        <button type="submit" class="email-submit">Get in touch</button>
+      </form>
+      <p class="form-note" id="form-message">No pitch. We'll reach out to understand your situation first.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/" class="footer-logo">Handwave <span>AI</span></a>
+    <div class="footer-links">
+      <a href="https://linkedin.com/company/handwaveai" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:aaron.nelson@handwaveai.com">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Handwave AI Inc.</div>
+  </footer>
+
+  <script>
+    // Intersection observer for fade-up animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger hero elements immediately
+    setTimeout(() => {
+      document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
+    }, 100);
+
+    // Form handler
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('email-field').value;
+      const msg = document.getElementById('form-message');
+      msg.textContent = 'Got it — we\'ll be in touch shortly.';
+      msg.style.color = 'rgba(255,255,255,0.7)';
+      document.getElementById('email-field').value = '';
+      // TODO: wire to backend / Formspree / Netlify Forms
+    }
+  </script>
+
 </body>
 </html>
